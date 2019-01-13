@@ -1,46 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import PhotoManager from './PhotoManager'
 
 export class Page extends React.Component {
   onBtnClick = e => {
     const year = +e.currentTarget.innerText
-    this.props.getPhotos(year) // setYear -> getPhotos
+    this.props.setYear(year)
   }
-  renderButtons = () => {
-    const { years } = this.props
-
-    return years.map((item, index) => {
-      return (
-        <button key={index} className="btn" onClick={this.onBtnClick}>
-          {item}
-        </button>
-      )
-    })
-  }
-  renderTemplate = () => {
-    const { photos, isFetching, error } = this.props
-
-    if (error) {
-      return <p className="error">Во время загрузки фото произошла ошибка</p>
-    }
-
-    if (isFetching) {
-      return <p>Загрузка...</p>
-    } else {
-      return <PhotoManager photos={photos} />
-    }
-  }
-
   render() {
     const { year, photos } = this.props
     return (
-      <div className="ib page">
-        <p>{this.renderButtons()}</p>
-        <h3>
-          {year} год [{photos.length}]
-        </h3>
-        {this.renderTemplate()}
+      <div>
+        <div>
+          <button onClick={this.onBtnClick}>2018</button>
+          <button onClick={this.onBtnClick}>2017</button>
+          <button onClick={this.onBtnClick}>2016</button>
+          <button onClick={this.onBtnClick}>2015</button>
+          <button onClick={this.onBtnClick}>2014</button>
+        </div>
+        <p>
+          {' '}
+          У тебя {photos.length} фото за {year} год.{' '}
+        </p>
       </div>
     )
   }
@@ -49,8 +29,5 @@ export class Page extends React.Component {
 Page.propTypes = {
   year: PropTypes.number.isRequired,
   photos: PropTypes.array.isRequired,
-  getPhotos: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  isFetching: PropTypes.bool.isRequired,
-  years: PropTypes.array.isRequired,
+  setYear: PropTypes.func.isRequired, // добавили новое свойство в propTypes
 }
